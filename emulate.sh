@@ -1,9 +1,17 @@
 MODE=${1:-k}
+DEBUG=$2
+
+QEMU=qemu-system-i386
+FLAGS=
+
+if [[ $2 == d ]]; then
+	FLAGS+="-s -S"
+fi
 
 if [[ $MODE == k ]]; then
-qemu-system-i386 -kernel out/kernel.bin
+	$QEMU $FLAGS -kernel out/kernel.bin
 elif [[ $MODE == c ]]; then
-	qemu-system-i386 -cdrom out/gulbuntu.iso
+	$QEMU $FLAGS -cdrom out/gulbuntu.iso
 else
 	echo "Invalid mode"
 fi

@@ -5,7 +5,7 @@ MAKEFLAGS += --no-builin-rules
 BUILDDIR := build
 SRCDIR := src
 OBJDIR := obj
-_OBJS := loader.o kernel.o
+_OBJS := loader.o kernel.o screen.o portio.o
 OBJS := $(patsubst %,$(OBJDIR)/%,$(_OBJS))
 
 OUTDIR := out
@@ -18,7 +18,7 @@ IMG := $(OUTDIR)/gulbuntu.iso
 ASM := nasm
 CC := /usr/local/cross/bin/gcc
 ASMFLAGS := -felf
-CFLAGS := -std=gnu99 -ffreestanding -Wall -Werror -m32
+CFLAGS := -std=gnu99 -ffreestanding -Wall -Werror -m32 -Iinclude -g
 LDFLAGS := -ffreestanding -nostdlib -lgcc -T $(BUILDDIR)/linker.ld -m32
 
 all: $(IMG)
