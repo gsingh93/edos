@@ -10,8 +10,8 @@ static color_t foreground_color = WHITE;
 static color_t background_color = BLACK;
 
 static void set_video_mem(uint8_t row, uint8_t col, char c);
-static void move_cursor();
-static void draw_cursor();
+static void move_cursor(void);
+static void draw_cursor(void);
 
 static void set_video_mem(uint8_t row, uint8_t col, char c) {
 	static uint16_t *video_memory = (uint16_t *) 0xB8000;
@@ -20,7 +20,7 @@ static void set_video_mem(uint8_t row, uint8_t col, char c) {
 	video_memory[row * COLS + col] = entry;
 }
 
-static void move_cursor() {
+static void move_cursor(void) {
 	cursor_x++;
 	if (cursor_x == COLS) {
 		cursor_x = 0;
@@ -35,7 +35,7 @@ static void move_cursor() {
 	}
 }
 
-static void draw_cursor() {
+static void draw_cursor(void) {
 	uint16_t pos = cursor_y * COLS + cursor_x;
 	outb(0x3D4, 15);
 	outb(0x3D5, pos);
@@ -43,7 +43,7 @@ static void draw_cursor() {
 	outb(0x3D5, pos >> 8);
 }
 
-void cls() {
+void cls(void) {
 	int i, j;
 	for (i = 0; i < COLS; i++) {
 		for (j = 0; j < ROWS; j++) {

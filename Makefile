@@ -5,7 +5,8 @@ MAKEFLAGS += --no-builin-rules
 BUILDDIR := build
 SRCDIR := src
 OBJDIR := obj
-_OBJS := loader.o kernel.o screen.o portio.o
+_OBJS := loader.o kernel.o screen.o portio.o gdt.o string.o gdt_asm.o \
+		idt.o idt_asm.o isr.o isr_asm.o
 OBJS := $(patsubst %,$(OBJDIR)/%,$(_OBJS))
 
 OUTDIR := out
@@ -34,7 +35,11 @@ $(IMG): $(KBIN)
 $(KBIN): $(OBJS) | $(OUTDIR)
 	$(CC) $(LDFLAGS) $(OBJS) -o $(KBIN)
 
-# Assemble loader.s
+# Assemble asm files in boot
+$(OBJDIR)/%.o: $(SRCDIR)/%.s | $(OBJDIR)
+	$(ASM) $(ASMFLAGS) -o $@ $<
+
+# Assemble asm files in boot
 $(OBJDIR)/%.o: $(SRCDIR)/boot/%.s | $(OBJDIR)
 	$(ASM) $(ASMFLAGS) -o $@ $<
 

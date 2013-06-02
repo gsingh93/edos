@@ -10,7 +10,7 @@ typedef enum {
 } color_t;
 
 /** Clears the screen */
-void cls();
+void cls(void);
 
 /** Puts a character on the screen */
 void putchar(char c);
