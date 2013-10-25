@@ -17,7 +17,7 @@ IMG := $(OUTDIR)/gulbuntu.iso
 
 # Toolchain and flags
 ASM := nasm
-CC := /usr/local/cross/bin/gcc
+CC := /usr/local/cross/bin/i586-elf-gcc
 ASMFLAGS := -felf
 CFLAGS := -std=gnu99 -ffreestanding -Wall -Werror -m32 -Iinclude -g
 LDFLAGS := -ffreestanding -nostdlib -lgcc -T $(BUILDDIR)/linker.ld -m32
