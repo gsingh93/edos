@@ -75,10 +75,13 @@ void init_gdt(void) {
      * segments.
      */
     memset(&gdt, 0, sizeof gdt[0]); // NULL descriptor
-    gdt[1] = create_descriptor(0, 0xFFFFFFFF, 0, 0xA); // Kernel code segment
-    gdt[2] = create_descriptor(0, 0xFFFFFFFF, 0, 0x2); // Kernel data segment
-    gdt[3] = create_descriptor(0, 0xFFFFFFFF, 3, 0xA); // User code segment
-    gdt[4] = create_descriptor(0, 0xFFFFFFFF, 3, 0x2); // User data segment
+
+    #define CD(type, seg) create_descriptor(0, 0xFFFFFFFF, type, seg);
+    gdt[1] = CD(0, 0xA); // Kernel code segment
+    gdt[2] = CD(0, 0x2); // Kernel data segment
+    gdt[3] = CD(3, 0xA); // User code segment
+    gdt[4] = CD(3, 0x2); // User data segment
+    #undef CD
 
     load_gdt(&gp); // Set GDTR to our GDT
     puts("GDT Initialized\n");
