@@ -66,7 +66,6 @@ isr_common_stub:
 
     call isr_handler   ; Handle the ISR
 
-    pop eax
     pop gs             ; Restore all regs modified in this function
     pop fs
     pop es
@@ -74,4 +73,5 @@ isr_common_stub:
 
     popa
     add esp, 8         ; Removes the pushed error code and ISR number
+    sti
     iret               ; Return from interrupt

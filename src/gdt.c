@@ -66,7 +66,7 @@ static gdt_entry_t create_descriptor(uint32_t base, uint32_t limit, uint8_t DPL,
 }
 
 void init_gdt(void) {
-    gp.base = (uint32_t) &gdt;
+    gp.base = (uint32_t) gdt;
     gp.limit = (sizeof (gdt_entry_t)) * 5;
 
     /*

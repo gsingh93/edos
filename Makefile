@@ -6,7 +6,7 @@ BUILDDIR := build
 SRCDIR := src
 OBJDIR := obj
 _OBJS := loader.o kernel.o screen.o portio.o gdt.o string.o gdt_asm.o \
-		idt.o idt_asm.o isr.o isr_asm.o
+		idt.o idt_asm.o isr.o isr_asm.o irq.o irq_asm.o pit.o
 OBJS := $(patsubst %,$(OBJDIR)/%,$(_OBJS))
 
 OUTDIR := out

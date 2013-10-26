@@ -3,48 +3,38 @@
 #include "screen.h"
 #include <stdint.h>
 
-extern isr_function isr0;
-extern isr_function isr1;
-extern isr_function isr2;
-extern isr_function isr3;
-extern isr_function isr4;
-extern isr_function isr5;
-extern isr_function isr6;
-extern isr_function isr7;
-extern isr_function isr8;
-extern isr_function isr9;
-extern isr_function isr10;
-extern isr_function isr11;
-extern isr_function isr12;
-extern isr_function isr13;
-extern isr_function isr14;
-extern isr_function isr15;
-extern isr_function isr16;
-extern isr_function isr17;
-extern isr_function isr18;
-extern isr_function isr19;
-extern isr_function isr20;
-extern isr_function isr21;
-extern isr_function isr22;
-extern isr_function isr23;
-extern isr_function isr24;
-extern isr_function isr25;
-extern isr_function isr26;
-extern isr_function isr27;
-extern isr_function isr28;
-extern isr_function isr29;
-extern isr_function isr30;
-extern isr_function isr31;
-
-/*
- * A stack frame when an ISR is called
- */
-typedef struct {
-    uint32_t gs, fs, es, ds; // These are the last things pushed to the stack
-    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
-    uint32_t interrupt_number, error_code;
-    uint32_t eip, cs, eflags, useresp, ss;
-} isr_stack_frame_t;
+extern idt_function isr0;
+extern idt_function isr1;
+extern idt_function isr2;
+extern idt_function isr3;
+extern idt_function isr4;
+extern idt_function isr5;
+extern idt_function isr6;
+extern idt_function isr7;
+extern idt_function isr8;
+extern idt_function isr9;
+extern idt_function isr10;
+extern idt_function isr11;
+extern idt_function isr12;
+extern idt_function isr13;
+extern idt_function isr14;
+extern idt_function isr15;
+extern idt_function isr16;
+extern idt_function isr17;
+extern idt_function isr18;
+extern idt_function isr19;
+extern idt_function isr20;
+extern idt_function isr21;
+extern idt_function isr22;
+extern idt_function isr23;
+extern idt_function isr24;
+extern idt_function isr25;
+extern idt_function isr26;
+extern idt_function isr27;
+extern idt_function isr28;
+extern idt_function isr29;
+extern idt_function isr30;
+extern idt_function isr31;
 
 #define NUM_ISRS 32
 static char *exception_messages[NUM_ISRS] = {
@@ -53,6 +43,8 @@ static char *exception_messages[NUM_ISRS] = {
     "Non Maskable Interrupt",
     "Breakpoint",
     "Into Detected Overflow",
+    "Out of Bounds Exception",
+    "Invalid Opcode Exception",
     "No Coprocessor",
     "Double Fault",
     "Coprocessor Segment Overrun",
@@ -103,8 +95,9 @@ void init_isrs(void) {
     idt_create_descriptor(31, isr31, 0xE);
 }
 
-void isr_handler(isr_stack_frame_t *frame) {
-    if (frame->interrupt_number < NUM_ISRS) {
-        puts(exception_messages[frame->interrupt_number]);
+void isr_handler(interrupt_stack_frame_t frame) {
+    if (frame.interrupt_number < NUM_ISRS) {
+        puts(exception_messages[frame.interrupt_number]);
+        putchar('\n');
     }
 }
