@@ -3,19 +3,19 @@
 #include "screen.h"
 
 typedef struct __attribute__((packed)) {
-    unsigned limit_low : 16;
-    unsigned base_low : 16;
-    unsigned base_mid : 8;
-    unsigned type : 4;
-    unsigned system : 1;
-    unsigned privilege : 2;
-    unsigned present : 1;
-    unsigned limit_high : 4;
-    unsigned avail : 1;
-    unsigned longmode : 1;
-    unsigned size : 1;
+    unsigned limit_low   : 16;
+    unsigned base_low    : 16;
+    unsigned base_mid    : 8;
+    unsigned type        : 4;
+    unsigned system      : 1;
+    unsigned privilege   : 2;
+    unsigned present     : 1;
+    unsigned limit_high  : 4;
+    unsigned avail       : 1;
+    unsigned longmode    : 1;
+    unsigned size        : 1;
     unsigned granularity : 1;
-    unsigned base_high : 8;
+    unsigned base_high   : 8;
 } gdt_entry_t;
 
 typedef struct __attribute__((packed)) {

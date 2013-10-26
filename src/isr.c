@@ -41,9 +41,9 @@ extern isr_function isr31;
  */
 typedef struct {
     uint32_t gs, fs, es, ds; // These are the last things pushed to the stack
-    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // TODO: Why this order?
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
     uint32_t interrupt_number, error_code;
-    uint32_t eip, cs, eflags, useresp, ss; // What is user esp?
+    uint32_t eip, cs, eflags, useresp, ss;
 } isr_stack_frame_t;
 
 #define NUM_ISRS 32
@@ -103,8 +103,6 @@ void init_isrs(void) {
     idt_create_descriptor(31, isr31, 0xE);
 }
 
-// I don't see why we have access to the stack frame through a pointer?
-// We would have had to push that on the stack first?
 void isr_handler(isr_stack_frame_t *frame) {
     if (frame->interrupt_number < NUM_ISRS) {
         puts(exception_messages[frame->interrupt_number]);
