@@ -55,7 +55,7 @@ void cls(void) {
     draw_cursor();
 }
 
-void putchar(char c) {
+void putchar(const char c) {
     switch(c) {
     case '\n':
         cursor_x = 0;
@@ -71,10 +71,17 @@ void putchar(char c) {
     draw_cursor();
 }
 
-void puts(char *string) {
+void puts(const char *string) {
     while (*string) {
         putchar(*string++);
     }
+}
+
+void puti(int n) {
+    if (n >= 10) {
+        puti(n / 10);
+    }
+    putchar('0' + n % 10);
 }
 
 void set_text_color(color_t fg_color, color_t bg_color) {

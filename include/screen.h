@@ -13,10 +13,13 @@ typedef enum {
 void cls(void);
 
 /** Puts a character on the screen */
-void putchar(char c);
+void putchar(const char c);
 
 /** Puts a string on the screen */
-void puts(char *str);
+void puts(const char *str);
+
+/** Puts an integer on the screen */
+void puti(int n);
 
 /** Sets the text color */
 void set_text_color(color_t fg_color, color_t bg_color);
