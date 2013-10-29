@@ -2,6 +2,9 @@
 #include "idt.h"
 #include "portio.h"
 #include "defs.h"
+#include "pic.h"
+#include "screen.h"
+#include "assert.h"
 
 extern idt_function irq0;
 extern idt_function irq1;
@@ -20,10 +23,8 @@ extern idt_function irq13;
 extern idt_function irq14;
 extern idt_function irq15;
 
-#define MASTER_PIC_COMMAND_PORT 0x20
-#define SLAVE_PIC_COMMAND_PORT  0xA0
-#define MASTER_PIC_DATA_PORT    0x21
-#define SLAVE_PIC_DATA_PORT     0xA1
+static pic_t master;
+static pic_t slave;
 
 /*
  * We don't want to overwrite existing entries in the IDT, so we remap the IRQ
@@ -31,21 +32,23 @@ extern idt_function irq15;
  * (ICWs). See http://www.brokenthorn.com/Resources/OSDevPic.html
  */
 static void remap_irqs() {
-    outb(MASTER_PIC_COMMAND_PORT, 0x11);
-    outb(SLAVE_PIC_COMMAND_PORT, 0x11);
+    PIC_send_command(&master, ICW1_INIT | ICW1_ICW4);
+    PIC_send_command(&slave, ICW1_INIT | ICW1_ICW4);
 
-    outb(MASTER_PIC_DATA_PORT, 0x20); // IRQs start at 32
-    outb(MASTER_PIC_DATA_PORT, 0x04); // Slave is at IRQ 2
-    outb(MASTER_PIC_DATA_PORT, 0x01);
-    outb(MASTER_PIC_DATA_PORT, 0x0);
+    PIC_send_data(&master, 0x20); // IRQs start at 32
+    PIC_send_data(&master, 0x04); // Slave is at IRQ 2
+    PIC_send_data(&master, 0x01);
+    PIC_send_data(&master, 0x0);
 
-    outb(SLAVE_PIC_DATA_PORT, 0x28); // IRQs start at 40
-    outb(SLAVE_PIC_DATA_PORT, 0x02); // Cascade identity
-    outb(SLAVE_PIC_DATA_PORT, 0x01);
-    outb(SLAVE_PIC_DATA_PORT, 0x0);
+    PIC_send_data(&slave, 0x28); // IRQs start at 40
+    PIC_send_data(&slave, 0x02); // Cascade identity
+    PIC_send_data(&slave, 0x01);
+    PIC_send_data(&slave, 0x0);
 }
 
 void init_irqs() {
+    PIC_init(&master, MASTER);
+    PIC_init(&slave, SLAVE);
     remap_irqs();
     idt_create_descriptor(32, irq0, 0xE);
     idt_create_descriptor(33, irq1, 0xE);
@@ -66,13 +69,16 @@ void init_irqs() {
 }
 
 void irq_handler(interrupt_stack_frame_t frame) {
+    ASSERT_INTERRUPTS_DISABLED();
     if (frame.interrupt_number > 40) {
         // Reset slave
-        outb(SLAVE_PIC_COMMAND_PORT, 0x20);
+        PIC_send_command(&slave, 0x20);
     }
 
     // Reset master
-    outb(MASTER_PIC_COMMAND_PORT, 0x20);
+    PIC_send_command(&master, 0x20);
+    int i = 10000000;
+    while (i--);
 
     if (interrupt_handlers[frame.interrupt_number] != NULL) {
         interrupt_handler *handler = interrupt_handlers[frame.interrupt_number];
