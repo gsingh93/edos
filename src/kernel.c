@@ -3,13 +3,16 @@
 #include "screen.h"
 #include "pit.h"
 #include "util_asm.h"
+#include "assert.h"
 
 int kmain() {
-    set_interrupts();
     cls();
     init_gdt();
     init_idt();
     init_timer(50);
+    set_interrupts();
+    ASSERT_INTERRUPTS_ENABLED();
     puts("Hello World!\n");
+    while (1);
     return 0;
 }
