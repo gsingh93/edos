@@ -2,9 +2,10 @@
 #include "idt.h"
 #include "screen.h"
 #include "pit.h"
+#include "util_asm.h"
 
 int kmain() {
-    asm("sti");
+    set_interrupts();
     cls();
     init_gdt();
     init_idt();
