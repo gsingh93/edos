@@ -3,6 +3,7 @@
 
 #include "screen.h"
 #include "defs.h"
+#include "util_asm.h"
 
 #define ASSERT(cond)                                       \
     do {                                                   \
@@ -14,5 +15,8 @@
             asm("hlt");                                    \
         }                                                  \
     } while (0);
+
+#define ASSERT_INTERRUPTS_ENABLED() ASSERT((get_eflags() & (1 << 9)) == 1)
+#define ASSERT_INTERRUPTS_DISABLED() ASSERT((get_eflags() & (1 << 9)) == 0)
 
 #endif
