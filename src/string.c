@@ -6,3 +6,11 @@ void memset(void *obj, uint8_t val, uint32_t size) {
         mem[i] = val;
     }
 }
+
+uint32_t strlen(const char *str) {
+    uint32_t len = 0;
+    while (*str++) {
+        len++;
+    }
+    return len;
+}
