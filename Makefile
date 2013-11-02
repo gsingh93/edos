@@ -6,7 +6,9 @@ BUILDDIR := build
 SRCDIR := src
 OBJDIR := obj
 _OBJS := loader.o kernel.o screen.o portio.o gdt.o string.o gdt_asm.o \
-		idt.o idt_asm.o isr.o isr_asm.o irq.o irq_asm.o pit.o util_asm.o
+	idt.o idt_asm.o isr.o isr_asm.o irq.o irq_asm.o pit.o util_asm.o \
+	pic.o
+
 OBJS := $(patsubst %,$(OBJDIR)/%,$(_OBJS))
 
 OUTDIR := out
@@ -22,7 +24,11 @@ ASMFLAGS := -felf
 CFLAGS := -std=gnu99 -ffreestanding -Wall -Werror -m32 -Iinclude -g
 LDFLAGS := -ffreestanding -nostdlib -lgcc -T $(BUILDDIR)/linker.ld -m32
 
-all: $(IMG)
+.PHONY: clean iso
+
+all: $(KBIN)
+
+iso: $(IMG)
 
 # Create a bootable image
 $(IMG): $(KBIN)
@@ -54,8 +60,6 @@ $(OBJDIR):
 # Create the out directory if it doesn't exist
 $(OUTDIR):
 	mkdir -p $(OUTDIR)
-
-.PHONY: clean
 
 clean:
 	rm -rf $(OBJDIR) $(OUTDIR)
