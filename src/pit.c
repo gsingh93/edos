@@ -1,10 +1,10 @@
-#include "pit.h"
-#include "screen.h"
-#include "irq.h"
-#include "idt.h"
-#include "portio.h"
-#include "pic.h"
 #include "assert.h"
+#include "idt.h"
+#include "irq.h"
+#include "pic.h"
+#include "pit.h"
+#include "portio.h"
+#include "screen.h"
 
 #define PIT_COMMAND_PORT 0x43
 #define PIT_CHANNEL_ZERO 0x40
@@ -14,9 +14,6 @@ static int tick = 0;
 static void timer_callback(interrupt_stack_frame_t frame) {
     ASSERT_INTERRUPTS_DISABLED();
     tick++;
-    puts("Tick: ");
-    puti(tick);
-    putchar('\n');
 }
 
 void init_timer(uint32_t frequency) {

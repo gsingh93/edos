@@ -1,6 +1,6 @@
 #include "gdt.h"
-#include "string.h"
 #include "screen.h"
+#include "string.h"
 
 typedef struct __attribute__((packed)) {
     unsigned limit_low   : 16;

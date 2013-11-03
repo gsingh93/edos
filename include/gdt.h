@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+/** Initialize the GDT structure and set the GDTR register */
 void init_gdt(void);
 
 #endif

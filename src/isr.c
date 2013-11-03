@@ -1,6 +1,7 @@
-#include "isr.h"
 #include "idt.h"
+#include "isr.h"
 #include "screen.h"
+
 #include <stdint.h>
 
 extern idt_function isr0;

@@ -1,9 +1,9 @@
-#include "idt.h"
 #include "defs.h"
-#include "string.h"
-#include "screen.h"
+#include "idt.h"
 #include "irq.h"
 #include "isr.h"
+#include "screen.h"
+#include "string.h"
 
 typedef struct __attribute__((packed)) {
     unsigned offset_low  : 16;
@@ -23,6 +23,7 @@ typedef struct __attribute__((packed)) {
 
 extern void load_idt(idt_ptr_t *ip);
 
+// Enum constant so we can use it as an array size
 enum { MAX_IDT_ENTRIES = 256 };
 
 static idt_entry_t idt[MAX_IDT_ENTRIES];

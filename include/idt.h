@@ -18,8 +18,13 @@ typedef void (interrupt_handler)(interrupt_stack_frame_t);
 
 extern interrupt_handler *interrupt_handlers[256];
 
+/** Initialize the IDT structure and set the IDTR register */
 void init_idt(void);
+
+/** Create an IDT descriptor to put in the IDT */
 void idt_create_descriptor(uint8_t index, idt_function *idt_fn, uint8_t type);
+
+/** Register a callback function to call when the specified interrupt occurs */
 void register_interrupt_handler(uint8_t index, interrupt_handler *handler);
 
 #endif

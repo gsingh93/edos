@@ -18,6 +18,7 @@
 #define IRQ14 46
 #define IRQ15 47
 
+/** Puts all of the IRQs in the IDT */
 void init_irqs();
 
 #endif

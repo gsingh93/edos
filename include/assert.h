@@ -2,7 +2,6 @@
 #define _ASSERT_H_
 
 #include "screen.h"
-#include "defs.h"
 #include "util_asm.h"
 
 #define ASSERT(cond)                                       \

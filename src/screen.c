@@ -1,5 +1,5 @@
-#include "screen.h"
 #include "portio.h"
+#include "screen.h"
 
 static uint16_t *const video_memory = (uint16_t *) 0xB8000;
 

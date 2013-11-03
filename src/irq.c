@@ -1,10 +1,10 @@
-#include "irq.h"
-#include "idt.h"
-#include "portio.h"
-#include "defs.h"
-#include "pic.h"
-#include "screen.h"
 #include "assert.h"
+#include "defs.h"
+#include "idt.h"
+#include "irq.h"
+#include "pic.h"
+#include "portio.h"
+#include "screen.h"
 
 extern idt_function irq0;
 extern idt_function irq1;

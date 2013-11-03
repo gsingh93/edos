@@ -1,5 +1,5 @@
-#include "kmalloc.h"
 #include "defs.h"
+#include "kmalloc.h"
 
 static uint32_t _kmalloc(uint32_t size, bool align);
 static inline bool is_page_aligned(uint32_t addr);

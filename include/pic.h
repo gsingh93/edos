@@ -24,10 +24,19 @@ typedef enum pic_type_t {
     MASTER, SLAVE
 } pic_type_t;
 
+/** Send the PIC the initialization control word */
 void PIC_init(pic_t *pic, pic_type_t type);
+
+/** Send the PIC a command */
 void PIC_send_command(pic_t* pic, uint8_t command);
+
+/** Send the PIC some data */
 void PIC_send_data(pic_t* pic, uint8_t data);
+
+/** Get the value of the IRR register */
 uint8_t PIC_get_irr(pic_t *pic);
+
+/** Get the value of the ISR register */
 uint8_t PIC_get_isr(pic_t *pic);
 
 #endif
